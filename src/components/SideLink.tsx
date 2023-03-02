@@ -16,7 +16,10 @@ const SideLink: React.FC<SideLinkProps> = ({
   return (
     <>
       <div
-        className={classNames('h-14 w-full flex items-center bg-blue-600', {"bg-blue-400" : isSelected})}
+        className={classNames(
+          'h-14 w-full flex items-center cursor-pointer',
+          {"bg-blue-600" : !isSelected},
+          { "bg-blue-400": isSelected })}
         onClick={() => {
           onClick(id);
         }}
@@ -28,4 +31,4 @@ const SideLink: React.FC<SideLinkProps> = ({
 };
 
 
-export default SideLink;
+export default SideLink

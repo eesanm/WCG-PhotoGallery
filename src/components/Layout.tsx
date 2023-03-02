@@ -1,10 +1,55 @@
 /** @format */
 
 import Head from 'next/head';
-import { PropsWithChildren } from 'react';
-import SideBar from './SideBar';
+import { PropsWithChildren, useMemo, useState } from 'react';
+import { useQuery } from 'react-query';
+import SideBar, { SideBarProps } from './SideBar';
+import { SideLinkProps } from './SideLink';
+
+export interface ResponseLinks {
+  id: string;
+  slug: string;
+  title: string;
+}
 
 export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
+  const [sideBarHidden, setSideBarHidden] = useState(false);
+  const [selectedId, setSelectedId] = useState('');
+
+  //-- fetch data for side links
+  const { isLoading, error, data } = useQuery<ResponseLinks[]>('topics', () =>
+    fetch(
+      'https://api.unsplash.com/topics/?client_id=k-BF5wOTwKPZ1m1UM1H0PzU-2OT5ngKJh1uAGy3s67I'
+    ).then((res) => res.json())
+  );
+
+  const onLinkClicked = (id: string) => {
+    setSelectedId(id);
+  };
+
+  //map fetched data to side links props
+  const sideLinkProps = useMemo((): SideLinkProps[] => {
+    if (data) {
+      return data.map((link) => ({
+        id: link.id,
+        label: link.title,
+        isSelected: link.id === selectedId,
+        onClick: onLinkClicked,
+      }));
+    }
+    return [];
+  }, [data, selectedId]);
+
+  console.log('selected id', selectedId);
+  console.log('The props are: ', JSON.stringify(sideLinkProps));
+
+  if (isLoading) {
+    return <>{'Loading...'}</>;
+  }
+
+  if (error) {
+    return <>{'There is an error returning the data.'}</>;
+  }
   return (
     <>
       <Head>
@@ -14,7 +59,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <div className="flex">
-        <SideBar sideLinks={[]}></SideBar>
+        <SideBar sideLinks={sideLinkProps}></SideBar>
         <main>{children}</main>
       </div>
     </>
