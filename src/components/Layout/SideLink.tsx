@@ -1,4 +1,6 @@
-import classNames from "classnames";
+/** @format */
+
+import classNames from 'classnames';
 
 export interface SideLinkProps {
   id: string;
@@ -17,9 +19,9 @@ const SideLink: React.FC<SideLinkProps> = ({
     <>
       <div
         className={classNames(
-          'h-14 w-full flex items-center cursor-pointer',
-          {"bg-blue-600" : !isSelected},
-          { "bg-blue-400": isSelected })}
+          'h-14 w-full flex items-center cursor-pointer px-6 py-4',
+          { 'bg-blue-400': isSelected }
+        )}
         onClick={() => {
           onClick(id);
         }}
@@ -30,5 +32,4 @@ const SideLink: React.FC<SideLinkProps> = ({
   );
 };
 
-
-export default SideLink
+export default SideLink;
