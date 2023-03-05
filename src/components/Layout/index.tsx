@@ -11,7 +11,7 @@ import { getMockLinks } from "./LayoutHelper";
 import SideBar, { SideBarProps } from "./SideBar";
 import { SideLinkProps } from "./SideLink";
 
-export interface ResponseLinks {
+export interface ResponseTopics {
   id: string;
   slug: string;
   title: string;
@@ -31,7 +31,7 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
   }, [router]);
 
   //-- fetch data for side links
-  const { isLoading, error, data } = useQuery<ResponseLinks[]>("topics", () =>
+  const { isLoading, error, data } = useQuery<ResponseTopics[]>("topics", () =>
     fetch(
       "https://api.unsplash.com/topics/?client_id=k-BF5wOTwKPZ1m1UM1H0PzU-2OT5ngKJh1uAGy3s67I"
     ).then((res) => res.json())
@@ -87,7 +87,8 @@ export const Layout: React.FC<PropsWithChildren> = ({ children }) => {
         <SideBar sideLinks={sideLinkProps}></SideBar>
         <main
           className={classNames(
-            "grow absolute top-0 bg-white w-full h-full transition-[left] duration-200 ease-out",
+            "grow absolute top-0 bg-neutral-100 w-full h-full",
+            "transition-[left] duration-200 ease-out overflow-y-auto",
             { "left-72 pointer-events-none": !isSideBarHidden },
             { "left-0": isSideBarHidden }
           )}
