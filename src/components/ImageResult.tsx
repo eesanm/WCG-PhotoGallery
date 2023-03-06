@@ -1,10 +1,9 @@
-import Image from "next/image";
-import { useState } from "react";
-import Modal from "react-modal";
-import { Blurhash } from 'react-blurhash';
-import { JsxElement } from "typescript";
+/** @format */
 
-Modal.setAppElement("#root");
+import Image from 'next/image';
+import { useState } from 'react';
+import { Blurhash } from 'react-blurhash';
+import ImageResultModal from './ImageResultModal';
 
 export interface ImageResultProps {
   id: string;
@@ -14,15 +13,18 @@ export interface ImageResultProps {
   altDescription: string | null;
   blurHash: string;
   urls: {
+    full: string;
     raw: string;
     regular: string;
     small: string;
     thumb: string;
   };
+  downloadUrl: string;
 }
 
 const ImageResult: React.FC<ImageResultProps> = ({
   urls,
+  downloadUrl,
   author,
   width,
   height,
@@ -60,42 +62,19 @@ const ImageResult: React.FC<ImageResultProps> = ({
           style={{ objectFit: 'cover' }}
         />
       </div>
-      <Modal
+      <ImageResultModal
+        altDescription={altDescription}
+        sourceUrl={urls.raw}
+        downloadUrl={downloadUrl}
+        author={author}
+        width={width}
+        height={height}
+        blurHash={blurHash}
         isOpen={isModalOpen}
-        className="Modal "
-        onRequestClose={() => {
+        onClose={() => {
           setIsModalOpen(false);
         }}
-      >
-        <div className="flex flex-col h-full">
-          <div className="shrink-0 relative flex h-10"></div>
-          <div className="flex-grow relative justify-center items-center bg-neutral-100 overflow-auto">
-            <div>
-              {blurHash && (
-                
-                  <Blurhash
-                    hash={blurHash}
-                    width="100%"
-                  height="100%"
-                  style={{
-                    "position" : "absolute"}}
-                  />
-                
-              )}
-              <Image
-                src={urls.raw}
-                fill
-                alt={altDescription ?? 'Missing description'}
-                style={{ objectFit: 'contain' }}
-                className="p-3"
-              />
-            </div>
-          </div>
-          <div className="shrink-0 relative justify-center items-center flex h-10 text-sm font-medium">
-            {author}
-          </div>
-        </div>
-      </Modal>
+      />
     </>
   );
 };

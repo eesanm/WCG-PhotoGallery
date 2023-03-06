@@ -15,6 +15,9 @@ export interface ResponseImages {
     small: string;
     thumb: string;
   };
+  links: {
+    download: string;
+  }
   user: {
     id: string;
     name: string;
@@ -41,11 +44,13 @@ const Gallery: React.FC<{ topicSlug: string }> = ({ topicSlug }) => {
         altDescription: result.alt_description,
         blurHash: result.blur_hash,
         urls: {
+          full: result.urls.full,
           raw: result.urls.raw,
           regular: result.urls.regular,
           small: result.urls.small,
           thumb: result.urls.thumb,
         },
+        downloadUrl: result.links.download,
       }));
     }
     return [];
