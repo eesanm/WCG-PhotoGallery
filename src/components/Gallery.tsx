@@ -4,9 +4,10 @@ import ImageResult, { ImageResultProps } from "./ImageResult";
 
 export interface ResponseImages {
   id: string;
-  width: string;
-  height: string;
-  alt_description: string;
+  width: number;
+  height: number;
+  alt_description: string | null;
+  blur_hash: string;
   urls: {
     raw: string;
     full: string;
@@ -38,6 +39,7 @@ const Gallery: React.FC<{ topicSlug: string }> = ({ topicSlug }) => {
         width: result.width,
         height: result.height,
         altDescription: result.alt_description,
+        blurHash: result.blur_hash,
         urls: {
           raw: result.urls.raw,
           regular: result.urls.regular,
@@ -48,11 +50,6 @@ const Gallery: React.FC<{ topicSlug: string }> = ({ topicSlug }) => {
     }
     return [];
   }, [data]);
-
-  console.log(
-    "The image result props are: ",
-    JSON.stringify(imagesResultsProps, null, 4)
-  );
 
   if (isLoading) {
     return <>{"Loading..."}</>;

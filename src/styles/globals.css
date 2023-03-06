@@ -39,3 +39,26 @@ h1{
   font-weight: bold;
   font-size: x-large;
 }
+
+.Modal{
+  overflow: hidden;
+  position: absolute;
+  inset: 0;
+  background-color: white;
+  border: none;
+  outline: none;
+  box-shadow: 4px 4px 8px 2px rgb( 200, 200, 200);
+}
+
+@media (min-width: 600px) {
+  .Modal{
+    border-radius: 16px;
+    inset:50px;
+  }
+}
+
+@media (min-width: 1280px) {
+  .Modal{
+    inset:50px 80px;
+  }
+}
